@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'main.dart';
+import 'SignInPage.dart';
 
 class SignUpPage extends StatefulWidget {
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'main.dart';
+import 'SignInPage.dart';
 
 class LeadInfoPage extends StatefulWidget {
   @override
@@ -97,19 +97,32 @@ class _LeadInfoPage extends State<LeadInfoPage> {
                     fillColor: Colors.white,
                     filled: true,
                     border: OutlineInputBorder(borderSide: const BorderSide(color: Colors.white, width: 0.0),borderRadius: BorderRadius.circular(10)),
+                    labelText: 'Commission'),
+              ),
+            ),
+            Padding(
+              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5.0),
+              child: TextField(
+                decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    border: OutlineInputBorder(borderSide: const BorderSide(color: Colors.white, width: 0.0),borderRadius: BorderRadius.circular(10)),
                     labelText: 'Phone number'),
               ),
             ),
             Container(
-              height: 150.0,
+              //height: 150.0,
               child: Padding(
-
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5.0),
               child: TextField(
-                style: TextStyle(height: 150.0),
+                keyboardType: TextInputType.multiline,
+                minLines: 5,
+                maxLines: null,
+                //style: TextStyle(height: 15.0),
                 decoration: InputDecoration(
-
+                    //contentPadding: EdgeInsets.only(top: 2),
                     fillColor: Colors.white,
                     filled: true,
                     border: OutlineInputBorder(borderSide: const BorderSide(color: Colors.white, width: 0.0),borderRadius: BorderRadius.circular(10)),
@@ -118,7 +131,7 @@ class _LeadInfoPage extends State<LeadInfoPage> {
               ),
             ),
             SizedBox(
-              height: 70,
+              height: 35,
             ),
             Container(
               height: 50,
@@ -135,6 +148,9 @@ class _LeadInfoPage extends State<LeadInfoPage> {
                   style: TextStyle(color: Color(0xFF20BA9F), fontSize: 25),
                 ),
               ),
+            ),
+            SizedBox(
+              height: 70,
             ),
           ],
         ),

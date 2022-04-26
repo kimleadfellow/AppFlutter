@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/LeadInfoPage.dart';
 
 class HomePage extends StatefulWidget {
@@ -7,7 +8,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   int _count = 1;
+
   @override
   Widget build(BuildContext context) {
     List<Widget> _providers =
@@ -60,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                       context, MaterialPageRoute(builder: (_) => LeadInfoPage()));
                 },
                 child: Text(
-                  'Submit',
+                  'Lead info',
                   style: TextStyle(color: Color(0xFF20BA9F), fontSize: 25),
                 ),
               ),

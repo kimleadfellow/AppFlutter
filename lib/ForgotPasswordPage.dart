@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'main.dart';
+import 'SignInPage.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   @override
