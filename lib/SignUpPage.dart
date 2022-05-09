@@ -107,6 +107,20 @@ class _SignUpPage extends State<SignUpPage> {
                 ),
               ),
             ),
+            Align(
+              child: FlatButton(
+                onPressed: () {
+
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => SignUpPage()));
+                },
+                child: Text(
+                  'Forgot your password',
+
+                  style: TextStyle(color: Colors.white, fontSize: 15),
+                ),
+              ),
+            ),
           ],
         ),
       ),

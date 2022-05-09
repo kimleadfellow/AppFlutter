@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:blowfish_ecb/blowfish_ecb.dart';
 import 'package:dbcrypt/dbcrypt.dart';
+import 'package:flutter_app/Login.dart';
 import 'AddProvidersPage.dart';
 import 'ForgotPasswordPage.dart';
 import 'SignUpPage.dart';
@@ -28,38 +29,7 @@ class LoginDemo extends StatefulWidget {
   _LoginDemoState createState() => _LoginDemoState();
 }
 
-String hexEncode(List<int> bytes) =>
-    bytes.map((byte) => byte.toRadixString(16).padLeft(2, '0')).join();
 
-Uint8List padPKCS5(List<int> input) {
-  final inputLength = input.length;
-  final paddingValue = 8 - (inputLength % 8);
-  final outputLength = inputLength + paddingValue;
-
-  final output = Uint8List(outputLength);
-  for (var i = 0; i < inputLength; ++i) {
-    output[i] = input[i];
-  }
-  output.fillRange(outputLength - paddingValue, outputLength, paddingValue);
-
-  return output;
-}
-
-int getPKCS5PadCount(List<int> input) {
-  if (input.length % 8 != 0) {
-    throw FormatException('Block size is invalid!', input);
-  }
-
-  final count = input.last;
-  final paddingStartIndex = input.length - count;
-  for (var i = input.length - 1; i >= paddingStartIndex; --i) {
-    if (input[i] != count) {
-      throw const FormatException('Padding is not valid PKCS5 padding!');
-    }
-  }
-
-  return count;
-}
 
 String Blowfish(String password){
   DBCrypt dBCrypt = DBCrypt();
@@ -68,32 +38,8 @@ String Blowfish(String password){
   return hashedPwd;
 }
 
-class LoginData{
-  final String message;
-  final int status;
-  final String token;
-  final String email;
-  final int expiresAt;
 
-  const LoginData({
-    required this.message,
-    required this.status,
-    required this.token,
-    required this.email,
-    required this.expiresAt,
-});
-  factory LoginData.fromJson(Map<String, dynamic> json) {
-    return LoginData(
-    message: json['message'],
-    status: json['status'],
-    token: json['token'],
-    email: json['email'],
-    expiresAt: json['expiresAt'],
-    );
-  }
-}
-
-Future<LoginData> getRequest(String email, String password) async {
+Future<Login> loginRequest(String email, String password) async {
   var emailRequest = email;
   var password_hash = Blowfish(password);
   var queryParameters={
@@ -103,7 +49,7 @@ Future<LoginData> getRequest(String email, String password) async {
   var uri = Uri.https('app.leadfellow.dev','/api/login',queryParameters);
   final response = await http.get(uri);
   if (response.statusCode == 200 && response.body.isNotEmpty) {
-    return LoginData.fromJson(jsonDecode(response.body));
+    return Login.fromJson(jsonDecode(response.body));
   }
   else{
     throw Exception('Login failed');
@@ -167,7 +113,7 @@ class _LoginDemoState extends State<LoginDemo> {
                     fillColor: Colors.white,
                     filled: true,
                     border: OutlineInputBorder(borderSide: const BorderSide(color: Colors.white, width: 0.0),borderRadius: BorderRadius.circular(10)),
-                    labelText: 'Username'),
+                    labelText: 'E-mail'),
               ),
             ),
             Padding(
@@ -208,7 +154,7 @@ class _LoginDemoState extends State<LoginDemo> {
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: FlatButton(
                 onPressed: () {
-                  getRequest(emailController.text, passwordController.text);
+                  loginRequest(emailController.text, passwordController.text);
                   Navigator.push(
                       context, MaterialPageRoute(builder: (_) => HomePage()));
                 },

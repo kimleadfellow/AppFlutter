@@ -1,10 +1,48 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
+import 'LeadInfo.dart';
+import 'LeadInfoRequest.dart';
 import 'SignInPage.dart';
+import 'package:http/http.dart' as http;
 
 class LeadInfoPage extends StatefulWidget {
   @override
   _LeadInfoPage createState() => _LeadInfoPage();
+}
+
+Future<LeadInfoRequest> sendLeadInfo(LeadInfo leadinfo) async {
+  var token = leadinfo.token;
+  var company = leadinfo.company;
+  var person_first = leadinfo.person_first;
+  var person_last = leadinfo.person_last;
+  var phone = leadinfo.phone;
+  var phone_area_code = leadinfo.phone_area_code;
+  var email = leadinfo.email;
+  var info = leadinfo.email;
+  var commission = leadinfo.commission;
+  var provider_emails = leadinfo.provider_emails;
+  var queryParameters={
+    'token': token,
+    'company': company,
+    'person_first': person_first,
+    'person_last': person_last,
+    'phone': phone,
+    'phone_area_code': phone_area_code,
+    'email': email,
+    'info': info,
+    'commission': commission,
+    'provider_emails': provider_emails,
+  };
+  var uri = Uri.https('app.leadfellow.dev','/api/insert-lead',queryParameters);
+  final response = await http.get(uri);
+  if (response.statusCode == 200 && response.body.isNotEmpty) {
+    return LeadInfoRequest.fromJson(jsonDecode(response.body));
+  }
+  else{
+    throw Exception('Lead info sending failed');
+  }
 }
 
 class _LeadInfoPage extends State<LeadInfoPage> {
